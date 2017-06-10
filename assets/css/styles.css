@@ -7,9 +7,24 @@
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: url('../img/background.jpg') no-repeat center center;
+  background-size: cover;
   color: #222;
   font-size: 1rem;
   line-height: 1.4;
+}
+
+main {
+  position: relative;
+  flex-grow: 1;
+  margin: 2rem;
+}
+
+img {
+  max-width: 100%
 }
 
 
@@ -22,7 +37,40 @@ body {
 
 /* Layout Containers */
 
+.hero-container {
+  display: inline-block;
+  position: absolute;
+}
 
+.hero-container:nth-child(1) {
+  top: 0;
+  left: 0;
+}
+
+.hero-container:nth-child(2) {
+  top: 0;
+  right: 0;
+}
+
+.hero-container:nth-child(3) {
+  bottom: 0;
+  left: 0;
+}
+
+.hero-container:nth-child(4) {
+  bottom: 0;
+  right: 0;
+}
+
+.card-container {
+  width: 220px;
+  padding: 0 0 50px;
+}
+
+.card-container {
+  background-color: #1b1d1e;
+  background-image: url("../img/pattern.png");
+}
 
 /* Page Elements */
 
