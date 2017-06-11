@@ -13,8 +13,8 @@ body {
   background: url('../img/background.jpg') no-repeat center center;
   background-size: cover;
   color: #f5f5f5;
-  font-size: 1rem;
-  line-height: 1.4;
+  font-size: 1.125rem;
+  line-height: 1.25;
 }
 
 main {
@@ -72,6 +72,20 @@ img {
 }
 
 /* Page Elements */
+
+#instruction {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 400px;
+  font-size: 1.5rem;
+  text-align: center;
+  background-color: #1b1d1e;
+  background-image: url("../img/pattern.png");
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+}
 
 .hero-name {
   padding-top: 0.25rem;
