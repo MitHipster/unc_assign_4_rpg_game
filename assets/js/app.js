@@ -2,6 +2,7 @@
 /*global window, console, $, jQuery, alert*/
 
 const $heroes = $('.hero-container');
+const $btn = $('#attack-btn');
 const $btnText = $('#attack-btn span');
 const $message = $('#message');
 const hpClass = ".hp-value";
@@ -14,39 +15,62 @@ let rpg = {
   characters: {
     captainAmerica: {
       healthPts: 150,
-      attackPower: 5,
+      attackPower: 9,
+      attackPwrInc: 9,
       counterPower: 20,
       team: 'blue'
     },
     ironMan: {
       healthPts: 170,
-      attackPower: 6,
+      attackPower: 10,
+      attackPwrInc: 10,
       counterPower: 25,
       team: 'red'
     },
     falcon: {
       healthPts: 120,
-      attackPower: 3,
+      attackPower: 7,
+      attackPwrInc: 7,
       counterPower: 15,
       team: 'blue'
     },
     blackWidow: {
       healthPts: 110,
-      attackPower: 4,
+      attackPower: 6,
+      attackPwrInc: 6,
       counterPower: 20,
       team: 'red'
     }
   },
-  messageIndex: 0,
   messages: ["Click a hero to be your player.", "Select an opponent to battle from the other team.", "Press attack to battle your opponent."],
-  btnText: ["Select", "Versus", "Attack"]
+  button: ["Select", "Versus", "Attack"],
+  fn: {
+    attack: function (player, opponent) {
+      $btn.on('click', function () {
+        let p = rpg.characters[player];
+        let o = rpg.characters[opponent];
+        o.healthPts -= p.attackPower;
+        p.healthPts -= o.counterPower;
+        p.attackPower += p.attackPwrInc;
+        rpg.fn.updateHp(player, p);
+        rpg.fn.updateHp(opponent, o);
+      });
+    },
+    setText: function (message, button) {
+      $message.text(rpg.messages[message]);
+      $btnText.text(rpg.button[button]);
+    },
+    updateHp: function (char, obj) {
+      $('main').find(`[data-hero="${char}"] ${hpClass}`).text(obj.healthPts);
+    }
+  }
 };
 
 let setupGame = function () {
-  $.each(rpg.characters, function(character, obj) {
-    $('main').find(`[data-hero="${character}"] ${hpClass}`).text(obj.healthPts);
+  $.each(rpg.characters, function(char, obj) {
+    rpg.fn.updateHp(char, obj);
   });
-  $message.text(rpg.messages[0]);
+  rpg.fn.setText(0, 0);
   rpg.charSelect = "";
   rpg.oppSelect = "";
 };
@@ -67,13 +91,13 @@ $heroes.click( function() {
   if (rpg.charSelect === "") {
     assign('charSelect', 'charTeam');
     charSide();
-    $message.text(rpg.messages[1]);
-    $btnText.text(rpg.btnText[1]);
+    rpg.fn.setText(1, 1);
   } else if (rpg.oppSelect === "" && $this.data("team") !== rpg.charTeam) {
     assign('oppSelect', 'oppTeam');
     charSide();
-    $message.text(rpg.messages[2]);
-    $btnText.text(rpg.btnText[2]).css('cursor', 'pointer').prop('disabled', false);
+    rpg.fn.setText(2, 2);
+    $btn.css('cursor', 'crosshair');
+    rpg.fn.attack(rpg.charSelect, rpg.oppSelect);
   }
 });
 
