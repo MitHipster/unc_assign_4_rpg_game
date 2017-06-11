@@ -23,6 +23,11 @@ main {
   margin: 2rem;
 }
 
+figure {
+  margin: 0;
+  padding: 0;
+}
+
 img {
   max-width: 100%
 }
@@ -40,33 +45,30 @@ img {
 .hero-container {
   display: inline-block;
   position: absolute;
-}
-
-.hero-container:nth-child(1) {
-  top: 0;
-  left: 0;
-}
-
-.hero-container:nth-child(2) {
-  top: 0;
-  right: 0;
-}
-
-.hero-container:nth-child(3) {
-  bottom: 0;
-  left: 0;
-}
-
-.hero-container:nth-child(4) {
-  bottom: 0;
-  right: 0;
-}
-
-.card-container {
   width: 220px;
   text-align: center;
   background-color: #1b1d1e;
   background-image: url("../img/pattern.png");
+}
+
+.hero-container:nth-of-type(1) {
+  top: 0;
+  left: 0;
+}
+
+.hero-container:nth-of-type(2) {
+  top: 0;
+  right: 0;
+}
+
+.hero-container:nth-of-type(3) {
+  bottom: 0;
+  left: 0;
+}
+
+.hero-container:nth-of-type(4) {
+  bottom: 0;
+  right: 0;
 }
 
 /* Page Elements */

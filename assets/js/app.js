@@ -45,5 +45,5 @@ let animateChar = function (element, side) {
   element.animate({
     top: pos,
     [side]: pos
-  }, 'slow');
+  }, 'slow').css('bottom', 'auto');
 };
