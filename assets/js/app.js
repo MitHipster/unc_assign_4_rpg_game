@@ -28,6 +28,20 @@ let rpg = {
       counterPower: 25,
       team: 'red'
     },
+    scarletWitch: {
+      healthPts: 150,
+      attackPower: 9,
+      attackPwrInc: 9,
+      counterPower: 20,
+      team: 'blue'
+    },
+    vision: {
+      healthPts: 170,
+      attackPower: 10,
+      attackPwrInc: 10,
+      counterPower: 25,
+      team: 'red'
+    },
     falcon: {
       healthPts: 120,
       attackPower: 7,
@@ -95,7 +109,7 @@ let rpg = {
       rpg.winCnt++;
       rpg.oppSelect = "";
       rpg.oppTeam = "";
-      if (rpg.winCnt === 2) {
+      if (rpg.winCnt === 3) {
         rpg.fn.setText(5, 4);
       } else {
         rpg.fn.setText(3, 1);
