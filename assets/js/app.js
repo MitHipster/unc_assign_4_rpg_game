@@ -5,7 +5,6 @@ const $heroes = $('.hero-container');
 const $btn = $('#attack-btn');
 const $btnText = $('#attack-btn span');
 const $message = $('#message');
-const hpClass = ".hp-value";
 
 let rpg = {
   charSelect: "",
@@ -123,9 +122,6 @@ let rpg = {
 };
 
 let setupGame = function () {
-  $.each(rpg.characters, function(char, obj) {
-    rpg.fn.updateHp(char, obj);
-  });
   rpg.fn.setText(0, 0);
   rpg.charSelect = "";
   rpg.oppSelect = "";
@@ -163,7 +159,10 @@ let animateChar = function (element, side) {
   element.animate({
     top: topPos,
     [side]: sidePos
-  }, 'slow').css('bottom', 'auto');
+  }, 'slow').css({
+    'bottom': 'auto',
+    'z-index': '10'
+  });
 };
 
 let removeHero = function (hero) {
