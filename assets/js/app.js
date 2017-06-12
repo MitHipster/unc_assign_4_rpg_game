@@ -110,6 +110,7 @@ let rpg = {
       } else {
         // Update opponent's HP before checking next condition
         o.healthPts -= p.attackPower;
+        rpg.fn.updateHp(opponent, o);
         if ((p.healthPts - o.counterPower) <= 0) {
           p.healthPts = 0;
           rpg.fn.updateHp(player, p);
