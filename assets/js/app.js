@@ -12,6 +12,7 @@ let rpg = {
   charTeam: "",
   oppSelect: "",
   oppTeam: "",
+  winCnt: 0,
   characters: {
     captainAmerica: {
       healthPts: 150,
@@ -42,18 +43,19 @@ let rpg = {
       team: 'red'
     }
   },
-  messages: ["Click a hero to be your player.", "Select an opponent to battle from the other team.", "Press attack to battle your opponent."],
-  button: ["Select", "Versus", "Attack"],
+  messages: [
+    "Select a hero to be your player.",
+    "Pick an opponent to battle from the opposing team.",
+    "Press attack to battle your opponent.",
+    "You won the battle. Pick a new opponent from the opposing team.",
+    "You lost the battle. Refresh the page to play again.",
+    "Congratulations. You have defeated all your opponents."
+  ],
+  button: ["Select", "Versus", "Attack", "Defeat", "Victory"],
   fn: {
-    attack: function (player, opponent) {
+    attackEvent: function () {
       $btn.on('click', function () {
-        let p = rpg.characters[player];
-        let o = rpg.characters[opponent];
-        o.healthPts -= p.attackPower;
-        p.healthPts -= o.counterPower;
-        p.attackPower += p.attackPwrInc;
-        rpg.fn.updateHp(player, p);
-        rpg.fn.updateHp(opponent, o);
+        rpg.fn.updateBattle(rpg.charSelect, rpg.oppSelect);
       });
     },
     setText: function (message, button) {
@@ -62,6 +64,46 @@ let rpg = {
     },
     updateHp: function (char, obj) {
       $('main').find(`[data-hero="${char}"] ${hpClass}`).text(obj.healthPts);
+    },
+    updateBattle: function (player, opponent) {
+      let p = rpg.characters[player];
+      let o = rpg.characters[opponent];
+      if ((o.healthPts - p.attackPower) <= 0) {
+        o.healthPts = 0;
+        rpg.fn.updateHp(opponent, o);
+        rpg.fn.wonBattle();
+        removeHero(opponent);
+        return false;
+      } else {
+        o.healthPts -= p.attackPower;
+        if ((p.healthPts - o.counterPower) <= 0) {
+          p.healthPts = 0;
+          rpg.fn.updateHp(player, p);
+          rpg.fn.lostBattle();
+          removeHero(player);
+          return false;
+        } else {
+          p.healthPts -= o.counterPower;
+          p.attackPower += p.attackPwrInc;
+        }
+      }
+      rpg.fn.updateHp(player, p);
+      rpg.fn.updateHp(opponent, o);
+    },
+    wonBattle: function () {
+      $btn.off().css('cursor', 'default');
+      rpg.winCnt++;
+      rpg.oppSelect = "";
+      rpg.oppTeam = "";
+      if (rpg.winCnt === 2) {
+        rpg.fn.setText(5, 4);
+      } else {
+        rpg.fn.setText(3, 1);
+      }
+    },
+    lostBattle: function () {
+      $btn.off().css('cursor', 'default');
+      rpg.fn.setText(4, 3);
     }
   }
 };
@@ -95,9 +137,9 @@ $heroes.click( function() {
   } else if (rpg.oppSelect === "" && $this.data("team") !== rpg.charTeam) {
     assign('oppSelect', 'oppTeam');
     charSide();
-    rpg.fn.setText(2, 2);
     $btn.css('cursor', 'crosshair');
-    rpg.fn.attack(rpg.charSelect, rpg.oppSelect);
+    rpg.fn.setText(2, 2);
+    rpg.fn.attackEvent();
   }
 });
 
@@ -108,6 +150,10 @@ let animateChar = function (element, side) {
     top: topPos,
     [side]: sidePos
   }, 'slow').css('bottom', 'auto');
+};
+
+let removeHero = function (hero) {
+  $('main').find(`[data-hero="${hero}"]`).fadeOut('slow');
 };
 
 setupGame();

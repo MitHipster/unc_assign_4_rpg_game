@@ -48,6 +48,7 @@ img {
   display: inline-block;
   position: absolute;
   width: 220px;
+  cursor: pointer;
   text-align: center;
   background-color: #1b1d1e;
   background-image: url("../img/pattern.png");
@@ -104,6 +105,7 @@ img {
   border: 8px solid #39587c;
   border-right: 8px solid #742a29;
   border-bottom: 8px solid #742a29;
+  outline: none;
   transform: rotate(-45deg);
   transition: background-color 0.2s ease-out;
 }
