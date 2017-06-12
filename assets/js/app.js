@@ -5,6 +5,8 @@ const $heroes = $('.hero-container');
 const $btn = $('#attack-btn');
 const $btnText = $('#attack-btn span');
 const $message = $('#message');
+const hpValue = '.hp-value';
+const hpWidth = 180;
 
 let rpg = {
   charSelect: "",
@@ -15,6 +17,7 @@ let rpg = {
   characters: {
     captainAmerica: {
       healthPts: 150,
+      healthPtsMax: 150,
       attackPower: 9,
       attackPwrInc: 9,
       counterPower: 20,
@@ -22,6 +25,7 @@ let rpg = {
     },
     ironMan: {
       healthPts: 170,
+      healthPtsMax: 170,
       attackPower: 10,
       attackPwrInc: 10,
       counterPower: 25,
@@ -29,6 +33,7 @@ let rpg = {
     },
     scarletWitch: {
       healthPts: 150,
+      healthPtsMax: 150,
       attackPower: 9,
       attackPwrInc: 9,
       counterPower: 20,
@@ -36,6 +41,7 @@ let rpg = {
     },
     vision: {
       healthPts: 170,
+      healthPtsMax: 170,
       attackPower: 10,
       attackPwrInc: 10,
       counterPower: 25,
@@ -43,6 +49,7 @@ let rpg = {
     },
     falcon: {
       healthPts: 120,
+      healthPtsMax: 120,
       attackPower: 7,
       attackPwrInc: 7,
       counterPower: 15,
@@ -50,6 +57,7 @@ let rpg = {
     },
     blackWidow: {
       healthPts: 110,
+      healthPtsMax: 110,
       attackPower: 6,
       attackPwrInc: 6,
       counterPower: 20,
@@ -76,7 +84,8 @@ let rpg = {
       $btnText.text(rpg.button[button]);
     },
     updateHp: function (char, obj) {
-      $('main').find(`[data-hero="${char}"] ${hpClass}`).text(obj.healthPts);
+      let width = (obj.healthPts / obj.healthPtsMax) * hpWidth;
+      $(`[data-hero="${char}"].active`).find(hpValue).css('width', width + 'px');
     },
     updateBattle: function (player, opponent) {
       let p = rpg.characters[player];
@@ -139,14 +148,15 @@ $heroes.click( function() {
   let assign = function (hero, team) {
     rpg[hero] = $this.data("hero");
     rpg[team] =  $this.data("team");
+    $this.addClass('active');
   };
   if (rpg.charSelect === "") {
-    assign('charSelect', 'charTeam');
     charSide();
+    assign('charSelect', 'charTeam');
     rpg.fn.setText(1, 1);
   } else if (rpg.oppSelect === "" && $this.data("team") !== rpg.charTeam) {
-    assign('oppSelect', 'oppTeam');
     charSide();
+    assign('oppSelect', 'oppTeam');
     $btn.css('cursor', 'crosshair');
     rpg.fn.setText(2, 2);
     rpg.fn.attackEvent();
@@ -154,7 +164,7 @@ $heroes.click( function() {
 });
 
 let animateChar = function (element, side) {
-  let topPos = '28%';
+  let topPos = '31.5%';
   let sidePos = '24%';
   element.animate({
     top: topPos,
